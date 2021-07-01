@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "930154649887",
+    "project_id": "message-board-f1c0c",
+    "storage_bucket": "message-board-f1c0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930154649887:android:7b8bc1437aaba938adb82a",
+        "android_client_info": {
+          "package_name": "com.rxicurns.messageboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930154649887-9q3130ku2lc35096av3vv0agtsrgoh01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD8X5RTCqsA6Iaw099JxrYSPB6MtL6_Kk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930154649887-9q3130ku2lc35096av3vv0agtsrgoh01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
