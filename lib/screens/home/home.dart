@@ -62,11 +62,43 @@ class Home extends StatelessWidget {
         //     image: AssetImage("lib/images/IMG_8053.JPG"),
         //   )
         // ),
-        child: Stack(
+        child: ListView(
           children: [
-            //adminMessages(),
+            ListTile(
+              leading: Icon(Icons.article, size: 56.0),           //FlutterLogo(size: 56.0),
+              title: Text('General'),
+              subtitle: Text('On-topic discussions'),
+              //trailing: Icon(Icons.more_vert),
+              onTap: () {print('General');},
+            ),
+            ListTile(
+              leading: Icon(Icons.announcement, size: 56.0),
+              title: Text('Annoucements'),
+              subtitle: Text('Important updates'),
+              //trailing: Icon(Icons.more_vert),
+              onTap: () {print('Annoucements');},
+            ),
+            ListTile(
+              leading: Icon(Icons.assignment, size:56.0),
+              title: Text('Homework'),
+              subtitle: Text('Homework help'),
+              //trailing: Icon(Icons.more_vert),
+              onTap: () {print('Homework');},
+            ),
+            ListTile(
+              leading: Icon(Icons.textsms, size: 56.0),
+              title: Text('Off-Topic'),
+              subtitle: Text('For everything else'),
+              //trailing: Icon(Icons.more_vert),
+              onTap: () {print('Off-Topic');},
+            ),
           ],
-        ),
+        )
+        // Stack(
+        //   children: [
+        //     //adminMessages(),
+        //   ],
+        //),
       ),
       //floatingActionButton: adminButtom()
       drawer: Drawer(
