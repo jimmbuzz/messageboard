@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:messageboard/screens/auth/authenticate.dart';
+import 'package:messageboard/screens/chat/chat.dart';
 
 class Home extends StatelessWidget {
 
@@ -15,92 +16,70 @@ class Home extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.indigo[400],
-        //automaticallyImplyLeading: false,
         title: Text("Message Boards"),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.exit_to_app,
-        //       color: Colors.amber,
-        //     ),
-        //     onPressed: () {
-        //       showDialog(context: context,
-        //       builder: (BuildContext context) {
-        //         return AlertDialog(
-        //           content: Text("Sign Out?"),
-        //           actions: [
-        //             TextButton(
-        //               child: Text("Proceed"),
-        //               onPressed: () {
-        //                 Navigator.of(context).pop();
-        //                 _auth.signOut().then((res) {
-        //                 Navigator.pushAndRemoveUntil(
-        //                   context,
-        //                   MaterialPageRoute(builder: (context) => Authenticate()),
-        //                   (Route<dynamic> route) => false);
-        //                 });
-        //               },
-        //             ),
-        //             TextButton(
-        //               child: Text("Cancel"),
-        //               onPressed: () {
-        //                 Navigator.of(context).pop();
-        //               },
-        //             )
-        //           ],
-        //         );
-        //       });
-        //     },
-        //   )
-        // ]
       ),
       body: Container(
-        //constraints: BoxConstraints.expand(),
-        // decoration: BoxDecoration(
-        //   shape: BoxShape.circle,
-        //   image: DecorationImage(
-        //     image: AssetImage("lib/images/IMG_8053.JPG"),
-        //   )
-        // ),
         child: ListView(
           children: [
             ListTile(
-              leading: Icon(Icons.article, size: 56.0),           //FlutterLogo(size: 56.0),
+              leading: Icon(Icons.article, size: 48.0),
               title: Text('General'),
               subtitle: Text('On-topic discussions'),
-              //trailing: Icon(Icons.more_vert),
-              onTap: () {print('General');},
+              onTap: () {
+                print('General');
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => Chat(
+                    convId: 'general',
+                    convName: 'General',
+                  )
+                ));
+              },
             ),
             ListTile(
-              leading: Icon(Icons.announcement, size: 56.0),
+              leading: Icon(Icons.announcement, size: 48.0),
               title: Text('Annoucements'),
               subtitle: Text('Important updates'),
-              //trailing: Icon(Icons.more_vert),
-              onTap: () {print('Annoucements');},
+              onTap: () {
+                print('Annoucements');
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => Chat(
+                    convId: 'annoucements',
+                    convName: 'Annoucements',
+                  )
+                ));
+              },
             ),
             ListTile(
-              leading: Icon(Icons.assignment, size:56.0),
+              leading: Icon(Icons.assignment, size:48.0),
               title: Text('Homework'),
               subtitle: Text('Homework help'),
-              //trailing: Icon(Icons.more_vert),
-              onTap: () {print('Homework');},
+              onTap: () {
+                print('Homework');
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => Chat(
+                    convId: 'homework',
+                    convName: 'Homework',
+                  )
+                ));
+              },
             ),
             ListTile(
-              leading: Icon(Icons.textsms, size: 56.0),
+              leading: Icon(Icons.textsms, size: 48.0),
               title: Text('Off-Topic'),
               subtitle: Text('For everything else'),
-              //trailing: Icon(Icons.more_vert),
-              onTap: () {print('Off-Topic');},
+              onTap: () {
+                print('Off-Topic');
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => Chat(
+                    convId: 'off-topic',
+                    convName: 'Off-Topic',
+                  )
+                ));
+              },
             ),
           ],
         )
-        // Stack(
-        //   children: [
-        //     //adminMessages(),
-        //   ],
-        //),
       ),
-      //floatingActionButton: adminButtom()
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
@@ -144,123 +123,9 @@ class Home extends StatelessWidget {
       ),
     );
   }
-  // Widget adminMessages() {
-  //   return StreamBuilder<QuerySnapshot>(
-  //     stream: FirebaseFirestore
-  //       .instance
-  //       .collection('messages')
-  //       .orderBy('timeStamp', descending: true)
-  //       .snapshots(),
-  //       builder: (context, snapshot) {
-  //         if(!snapshot.hasData) {
-  //           return Center (
-  //             child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo)));
-  //         } else {
-  //           return ListView.builder(
-  //             padding: EdgeInsets.all(10.0),
-  //             itemBuilder: (context, index){
-  //               DocumentSnapshot data = snapshot.data!.docs[index];
-  //               return MessageBox(message: data.get('message'));
-  //             },
-  //             itemCount: snapshot.data!.docs.length,
-  //             reverse: true,
-  //           );
-  //         }
-  //       },
-  //   );
-  // }
   Future<bool> isAdmin() async {
     final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
     final DocumentSnapshot docSnap = await FirebaseFirestore.instance.collection('users').doc(currentUserUid).get();
     return docSnap.get('isAdmin');
-  }
-  // Widget adminButtom() {
-  //   return FutureBuilder(
-  //     future: isAdmin(),
-  //       builder: (context, snapshot) {
-  //         if(!snapshot.hasData) {
-  //           return Center (
-  //             child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo)));
-  //         } else {
-  //           if (snapshot.data != false) {
-  //             return  FloatingActionButton(
-  //               onPressed: () {
-  //                 _displayTextInputDialog(context);
-  //               },
-  //               child: const Icon(Icons.add),
-  //               backgroundColor: Colors.indigo,
-  //             );
-  //           } else {
-  //             return Container();
-  //           }
-  //         }
-  //       },
-  //   );
-  // }
-}
-TextEditingController _textFieldController = TextEditingController();
-
-Future<void> _displayTextInputDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Message Your Fans'),
-          content: TextField(
-            controller: _textFieldController,
-            decoration: InputDecoration(hintText: "Enter a message..."),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('CLOSE'),
-              onPressed: () {
-                Navigator.pop(context);
-                _textFieldController.clear();
-              },
-            ),
-            TextButton(
-              child: Text('POST'),
-              onPressed: () {
-                FirebaseFirestore
-                .instance
-                .collection('messages')
-                .doc().set({
-                  'message' : _textFieldController.text,
-                  'timeStamp' : DateTime.now(),
-                });
-                print(_textFieldController.text);
-                Navigator.pop(context);
-                _textFieldController.clear();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-//@override
-class MessageBox extends StatelessWidget {
-  final String message;
-
-  MessageBox({required this.message});
-
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        top: 8,
-        bottom: 8,
-      ),
-      
-      alignment: Alignment.center,
-      child: Text(message,
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-              fontFamily: 'OverpassRegular',
-              fontWeight: FontWeight.w500
-            )
-      ),
-    );
   }
 }
