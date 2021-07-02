@@ -15,44 +15,44 @@ class Home extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.indigo[400],
-        automaticallyImplyLeading: false,
-        title: Text("Home"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.amber,
-            ),
-            onPressed: () {
-              showDialog(context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  content: Text("Sign Out?"),
-                  actions: [
-                    TextButton(
-                      child: Text("Proceed"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        _auth.signOut().then((res) {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => Authenticate()),
-                          (Route<dynamic> route) => false);
-                        });
-                      },
-                    ),
-                    TextButton(
-                      child: Text("Cancel"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                );
-              });
-            },
-          )
-        ]
+        //automaticallyImplyLeading: false,
+        title: Text("Message Boards"),
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(
+        //       Icons.exit_to_app,
+        //       color: Colors.amber,
+        //     ),
+        //     onPressed: () {
+        //       showDialog(context: context,
+        //       builder: (BuildContext context) {
+        //         return AlertDialog(
+        //           content: Text("Sign Out?"),
+        //           actions: [
+        //             TextButton(
+        //               child: Text("Proceed"),
+        //               onPressed: () {
+        //                 Navigator.of(context).pop();
+        //                 _auth.signOut().then((res) {
+        //                 Navigator.pushAndRemoveUntil(
+        //                   context,
+        //                   MaterialPageRoute(builder: (context) => Authenticate()),
+        //                   (Route<dynamic> route) => false);
+        //                 });
+        //               },
+        //             ),
+        //             TextButton(
+        //               child: Text("Cancel"),
+        //               onPressed: () {
+        //                 Navigator.of(context).pop();
+        //               },
+        //             )
+        //           ],
+        //         );
+        //       });
+        //     },
+        //   )
+        // ]
       ),
       body: Container(
         //constraints: BoxConstraints.expand(),
@@ -69,6 +69,47 @@ class Home extends StatelessWidget {
         ),
       ),
       //floatingActionButton: adminButtom()
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.indigo[400],
+              ),
+              child: Text('Message Board App'),
+            ),
+            ListTile(
+              title: Text('Message Boards'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Profile'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Settings'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
   // Widget adminMessages() {
