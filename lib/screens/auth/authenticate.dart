@@ -96,7 +96,11 @@ class _AuthenticateState extends State<Authenticate> {
         _firestore.doc(_auth.currentUser!.uid).get()
           .then((DocumentSnapshot docSnapshot) {
             if(docSnapshot.exists) {
-               print("User has data!");
+              print("User has data!");
+              Navigator.pushReplacement (
+                context,
+                MaterialPageRoute(builder: (context) => Home(uid: result.user!.uid)),
+              );
             } else {
               print("Creating user data");
               _firestore.doc(_auth.currentUser!.uid).set({
@@ -106,14 +110,15 @@ class _AuthenticateState extends State<Authenticate> {
                 'lastname' : _auth.currentUser!.displayName!.split(" ").last,
                 'isAdmin': false, 
                 'regDateTime' : DateTime.now(),
-              });
+                'profile_pic' : _auth.currentUser!.photoURL,
+              }).then((value) => Navigator.pushReplacement (
+                context,
+                MaterialPageRoute(builder: (context) => Home(uid: result.user!.uid)),
+              ));
             }
           }
         );
-      Navigator.pushReplacement (
-          context,
-          MaterialPageRoute(builder: (context) => Home(uid: result.user!.uid)),
-        );
+      
     });
   }
 }

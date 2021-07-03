@@ -146,6 +146,7 @@ class _EmailSignUpState extends State <EmailSignUp>  {
         'lastname': lastNameController.text,
         'isAdmin': false, 
         'regDateTime' : DateTime.now(),
+        'profile_pic' : '',
       }).then((res) {
         isLoading = false;
         Navigator.pushReplacement (
