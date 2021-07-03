@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +20,7 @@ class _ChatState extends State<Chat> {
   final String convName;
 
   TextEditingController messageEditingController = new TextEditingController();
+  ScrollController _scrollController = new ScrollController();
 
   _ChatState({required this.convId, required this.convName});
 
@@ -33,6 +36,7 @@ class _ChatState extends State<Chat> {
         return messagesnapshot.hasData ? ListView.builder(
           padding: const EdgeInsets.only(bottom: 60),          
           itemCount: messagesnapshot.data!.docs.length,
+          controller: _scrollController,
           itemBuilder: (context, index){
             return MessageTile(
               message: messagesnapshot.data!.docs[index].get('content'),
@@ -47,7 +51,7 @@ class _ChatState extends State<Chat> {
   }
   Future<String> senderDisplayName(String uid) async {
     final DocumentSnapshot docSnap = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    return docSnap.get('firstname');
+    return docSnap.get('username');
   }
   addMessage() async {
     if (messageEditingController.text.isNotEmpty) {
@@ -65,9 +69,10 @@ class _ChatState extends State<Chat> {
         .doc(convId)
         .update({'last_message' : value.id})
       );
-      
       setState(() {
         messageEditingController.text = "";
+        Timer(Duration(milliseconds: 200), () =>
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent));
       });
     }
   }

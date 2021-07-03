@@ -100,9 +100,10 @@ class _AuthenticateState extends State<Authenticate> {
             } else {
               print("Creating user data");
               _firestore.doc(_auth.currentUser!.uid).set({
-                'uid' : _auth.currentUser!.uid,
+                'username' : _auth.currentUser!.displayName!.split(" ").first,
                 'email' : _auth.currentUser!.email,
-                'firstname' : _auth.currentUser!.displayName,
+                'firstname' : _auth.currentUser!.displayName!.split(" ").first,
+                'lastname' : _auth.currentUser!.displayName!.split(" ").last,
                 'isAdmin': false, 
                 'regDateTime' : DateTime.now(),
               });

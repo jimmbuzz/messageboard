@@ -140,7 +140,7 @@ class _EmailSignUpState extends State <EmailSignUp>  {
     ).then((result) { 
       _firestore
       .doc(_auth.currentUser!.uid).set({
-        'uid' : _auth.currentUser!.uid,
+        'username' : firstNameController.text,
         'email' : emailController.text,
         'firstname': firstNameController.text,
         'lastname': lastNameController.text,
