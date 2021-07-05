@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:messageboard/screens/auth/authenticate.dart';
 import 'package:messageboard/screens/auth/Profile.dart';
 import 'package:messageboard/screens/auth/settings.dart';
 import 'package:messageboard/screens/chat/chat.dart';
@@ -12,7 +11,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth _auth = FirebaseAuth.instance;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -110,7 +108,7 @@ class Home extends StatelessWidget {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                //Navigator.pop(context);
+                Navigator.pop(context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ProfilePage()));
               },
@@ -121,6 +119,7 @@ class Home extends StatelessWidget {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
+                Navigator.pop(context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SettingsPage()));
               },

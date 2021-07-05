@@ -17,9 +17,10 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
-  TextEditingController propicController = TextEditingController();
+  //TextEditingController propicController = TextEditingController();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   var currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
@@ -40,19 +41,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 return Text("Data does not exist");
               }
               if (snapshot.connectionState == ConnectionState.done) {
-                Map<String, dynamic> data =
-                    snapshot.data!.data() as Map<String, dynamic>;
-
+                Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
                 emailController.text = data['email'];
-                propicController.text =
-                    data['profile_pic'] == null ? '' : data['profile_pic'];
-                // return Text(
-                //     "Full Name: ${data['full_name']} ${data['last_name']}");
+                //propicController.text = data['profile_pic'] == null ? '' : data['profile_pic'];
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      //Visibility(visible: (data['profile_pic']!=null && data['profile_pic'].toString().isNotEmpty),  child: NetworkImage('a'),)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -119,53 +114,49 @@ class _SettingsPageState extends State<SettingsPage> {
                               })
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 200,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Enter Profile Pic URL'),
-                              controller: propicController,
-                            ),
-                          ),
-                          IconButton(
-                              icon: Icon(Icons.check),
-                              onPressed: () async {
-                                String a = await updateUserInfoPro(data);
-                                if (a.isNotEmpty) {
-                                  showAlertDialog(a);
-                                  return;
-                                }
-                                showAlertDialog('Success! Profile Pic Updated');
-                              })
-                        ],
-                      ),
+                      //Unused but may be repurposed in the future...
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Container(
+                      //       width: 200,
+                      //       child: TextField(
+                      //         decoration: InputDecoration(
+                      //             border: OutlineInputBorder(),
+                      //             labelText: 'Enter Profile Pic URL'),
+                      //         controller: propicController,
+                      //       ),
+                      //     ),
+                      //     IconButton(
+                      //         icon: Icon(Icons.check),
+                      //         onPressed: () async {
+                      //           String a = await updateUserInfoPro(data);
+                      //           if (a.isNotEmpty) {
+                      //             showAlertDialog(a);
+                      //             return;
+                      //           }
+                      //           showAlertDialog('Success! Profile Pic Updated');
+                      //         })
+                      //   ],
+                      // ),
                       MaterialButton(
                         onPressed: () {
-                          //Navigator.pop(context);
-                          //FirebaseAuth.instance.signOut();
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => Authenticate()));
                           linkGoogle();
                         },
-                        child: Text('Link Google Account'),
+                        child: Text('Link Google Account', style: TextStyle(color: Colors.white)),
                         color: Colors.indigo,
                       ),
                       MaterialButton(
                         onPressed: () {
                           Navigator.pop(context);
                           FirebaseAuth.instance.signOut();
+                          _googleSignIn.signOut();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Authenticate()));
                         },
-                        child: Text('Logout'),
+                        child: Text('Logout', style: TextStyle(color: Colors.white)),
                         color: Colors.indigo,
                       )
                     ],
@@ -192,11 +183,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 title: Text('Message Boards'),
                 onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  //Navigator.pop(context);
-                  Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Home()));
@@ -205,24 +191,13 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 title: Text('Profile'),
                 onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  //Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ProfilePage()));
                 },
               ),
               ListTile(
                 title: Text('Settings'),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
+                onTap: () {}, 
               ),
             ],
           ),
@@ -230,7 +205,6 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
-
   Future<String> updateUserInfo(Map<String, dynamic> data) async {
     return await users
         .doc(currentUser!.uid)
@@ -241,12 +215,11 @@ class _SettingsPageState extends State<SettingsPage> {
           'email': emailController.text,
           'lastname': data['lastname'],
           'username': data['username'],
-          'profile_pic': data['profile_pic']
+          //'profile_pic': data['profile_pic']
         })
         .then((value) => '')
         .onError((error, stackTrace) => error.toString());
   }
-
   Future<String> updateUserInfoPro(Map<String, dynamic> data) async {
     return await users
         .doc(currentUser!.uid)
@@ -257,27 +230,23 @@ class _SettingsPageState extends State<SettingsPage> {
           'email': data['email'],
           'lastname': data['lastname'],
           'username': data['username'],
-          'profile_pic': propicController.text
+          //'profile_pic': propicController.text
         })
         .then((value) => '')
         .onError((error, stackTrace) => error.toString());
   }
-
   Future<String> updatePassword(String pwd) async {
     return currentUser!
         .updatePassword(pwd)
         .then((value) => '')
         .onError((error, stackTrace) => error.toString());
   }
-
   Future<String> updateEmail(String email) async {
-    //AuthCredential credential = AuthCredential(providerId: providerId, signInMethod: signInMethod)
     return currentUser!
         .updateEmail(email)
         .then((value) => '')
         .onError((error, stackTrace) => error.toString());
   }
-
   showAlertDialog(String message) {
     Widget okButton = TextButton(
       child: Text("OK"),
@@ -302,8 +271,6 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
   linkGoogle() async {
-    //User = _auth.currentUser
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
@@ -311,13 +278,45 @@ class _SettingsPageState extends State<SettingsPage> {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-
     //now link these credentials with the existing user
     try { 
       await currentUser!.linkWithCredential(gcredential); 
     } on FirebaseAuthException catch (e) {
-      _googleSignIn.signOut();
-      print("GOOGLE ERROR"+e.toString());
+      if (e.code == 'account-exists-with-different-credential') {
+        _googleSignIn.signOut();
+        showDialog(context: context, 
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(e.message.toString()),
+            actions: [
+              TextButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ]
+          );
+        });
+      } else {
+        _googleSignIn.signOut();
+        showDialog(context: context, 
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(e.message.toString()),
+            actions: [
+              TextButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ]
+          );
+        });
+      } 
     }
   }
 }

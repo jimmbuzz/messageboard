@@ -114,8 +114,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 });
                           }
                         },
-                        child: Text('Save'),
-                        color: Colors.blue[100],
+                        child: Text('Save', style: TextStyle(color: Colors.white)),
+                        color: Colors.indigo,
                       )
                     ],
                   ),
@@ -146,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Then close the drawer
                   //Navigator.pop(context);
                   Navigator.pop(context);
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Home()));
                 },
@@ -157,7 +157,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Update the state of the app
                   // ...
                   // Then close the drawer
-                  Navigator.pop(context);
+                  
+                  //Navigator.of(context).pop();
                 },
               ),
               ListTile(
@@ -167,7 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   // ...
                   // Then close the drawer
                   Navigator.pop(context);
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SettingsPage()));
                 },

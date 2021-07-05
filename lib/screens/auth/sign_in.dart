@@ -95,8 +95,8 @@ class _SignInState extends State<SignIn> {
 
   @override
     void initState() {
-      emailController.text = 'test@g.com';
-      passwordController.text = 'pppppp';
+      emailController.text = '';
+      passwordController.text = '';
       super.initState();
     }
 
