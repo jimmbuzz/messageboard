@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:messageboard/screens/auth/authenticate.dart';
 import 'package:messageboard/screens/home/home.dart';
 
@@ -18,6 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
   TextEditingController pwdController = TextEditingController();
   TextEditingController propicController = TextEditingController();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Settings'),
+          backgroundColor: Colors.indigo[400],
         ),
         body: FutureBuilder<DocumentSnapshot>(
             future: users.doc(currentUser!.uid).get(),
@@ -51,6 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: [
                       //Visibility(visible: (data['profile_pic']!=null && data['profile_pic'].toString().isNotEmpty),  child: NetworkImage('a'),)
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             width: 200,
@@ -84,6 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             width: 200,
@@ -115,6 +120,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             width: 200,
@@ -139,6 +145,19 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       MaterialButton(
                         onPressed: () {
+                          //Navigator.pop(context);
+                          //FirebaseAuth.instance.signOut();
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => Authenticate()));
+                          linkGoogle();
+                        },
+                        child: Text('Link Google Account'),
+                        color: Colors.indigo,
+                      ),
+                      MaterialButton(
+                        onPressed: () {
                           Navigator.pop(context);
                           FirebaseAuth.instance.signOut();
                           Navigator.push(
@@ -147,7 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   builder: (context) => Authenticate()));
                         },
                         child: Text('Logout'),
-                        color: Colors.blue,
+                        color: Colors.indigo,
                       )
                     ],
                   ),
@@ -281,5 +300,24 @@ class _SettingsPageState extends State<SettingsPage> {
         return alert;
       },
     );
+  }
+  linkGoogle() async {
+    //User = _auth.currentUser
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+    final AuthCredential gcredential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    //now link these credentials with the existing user
+    try { 
+      await currentUser!.linkWithCredential(gcredential); 
+    } on FirebaseAuthException catch (e) {
+      _googleSignIn.signOut();
+      print("GOOGLE ERROR"+e.toString());
+    }
   }
 }

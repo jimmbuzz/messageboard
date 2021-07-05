@@ -23,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Profile'),
+          backgroundColor: Colors.indigo[400]
         ),
         body: FutureBuilder<DocumentSnapshot>(
             future: users.doc(currentUser!.uid).get(),
