@@ -64,19 +64,37 @@ class _SettingsPageState extends State<SettingsPage> {
                             onPressed: () async {
                               if (data['email'] !=
                                   emailController.text.trim()) {
-                                String c = await updateEmail(
-                                    emailController.text.trim());
-                                if (c.isNotEmpty) {
-                                  showAlertDialog(c);
-                                  return;
-                                }
+                                updateEmail(
+                                    emailController.text.trim()).then((value) => updateUserInfo(data)).then((value) => 
+                                    showDialog(context: context, 
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Success! Email Updated'),
+                                          //content: Text(e.message.toString()),
+                                          actions: [
+                                            TextButton(
+                                              child: Text("Ok"),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            )
+                                          ]
+                                        );
+                                      })
+                                    );
+                                // if (c.isNotEmpty) {
+                                //   showAlertDialog(c);
+                                //   return;
+                                // } else {
+                                //   showAlertDialog('Success! Email Updated');
+                                // }
                               }
-                              String a = await updateUserInfo(data);
-                              if (a.isNotEmpty) {
-                                showAlertDialog(a);
-                                return;
-                              }
-                              showAlertDialog('Success! Email Updated');
+                              // String a = await updateUserInfo(data);
+                              // if (a.isNotEmpty) {
+                              //   showAlertDialog(a);
+                              //   return;
+                              // }
+                              
                             },
                             icon: Icon(Icons.check),
                           )

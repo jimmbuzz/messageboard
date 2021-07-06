@@ -41,8 +41,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 lNameController.text = data['lastname'];
                 fNameController.text = data['firstname'];
                 usernameController.text = data['username'];
-                // return Text(
-                //     "Full Name: ${data['full_name']} ${data['last_name']}");
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,7 +119,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 );
               }
-
               return Center(
                   child: CircularProgressIndicator(
                 semanticsLabel: 'Loading...',
@@ -141,34 +138,19 @@ class _ProfilePageState extends State<ProfilePage> {
               ListTile(
                 title: Text('Message Boards'),
                 onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  //Navigator.pop(context);
                   Navigator.pop(context);
-                  //Navigator.pop(context);
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Home()));
                 },
               ),
               ListTile(
                 title: Text('Profile'),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  
-                  //Navigator.of(context).pop();
-                },
+                onTap: () {},
               ),
               ListTile(
                 title: Text('Settings'),
                 onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
                   Navigator.pop(context);
-                  //Navigator.pop(context);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SettingsPage()));
                 },
@@ -179,7 +161,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
   showAlertDialog(BuildContext context, String message) {
     Widget okButton = TextButton(
       child: Text("OK"),
@@ -187,7 +168,6 @@ class _ProfilePageState extends State<ProfilePage> {
         Navigator.pop(context);
       },
     );
-
     AlertDialog alert = AlertDialog(
       content: new Row(
         children: [
@@ -203,7 +183,6 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
-
   Future<String> updateUserInfo(Map<String, dynamic> data) async {
     return await users
         .doc(currentUser!.uid)
@@ -219,20 +198,4 @@ class _ProfilePageState extends State<ProfilePage> {
         .then((value) => '')
         .onError((error, stackTrace) => error.toString());
   }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  // Future<Map<String, dynamic>> getUserDetails() async {
-  //   var currentUser = FirebaseAuth.instance.currentUser;
-  //   var collection =
-  //       FirebaseFirestore.instance.collection('users').doc(currentUser!.uid);
-  //   return await collection
-  //       .get()
-  //       .then((value) => {if (value.exists) {} else {}})
-  //       .onError((error, stackTrace) => {});
-  // }
 }
