@@ -92,6 +92,14 @@ class _SignInState extends State<SignIn> {
      
     );
   }
+
+  @override
+    void initState() {
+      emailController.text = '';
+      passwordController.text = '';
+      super.initState();
+    }
+
   void loginFB() {
     _auth.signInWithEmailAndPassword(
       email: emailController.text, 

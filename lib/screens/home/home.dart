@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:messageboard/screens/auth/authenticate.dart';
+import 'package:messageboard/screens/auth/Profile.dart';
+import 'package:messageboard/screens/auth/settings.dart';
 import 'package:messageboard/screens/chat/chat.dart';
 
 class Home extends StatelessWidget {
-
   Home({this.uid});
   final String? uid;
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth _auth = FirebaseAuth.instance;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -19,67 +18,70 @@ class Home extends StatelessWidget {
         title: Text("Message Boards"),
       ),
       body: Container(
-        child: ListView(
-          children: [
-            ListTile(
-              leading: Icon(Icons.article, size: 48.0),
-              title: Text('General'),
-              subtitle: Text('On-topic discussions'),
-              onTap: () {
-                print('General');
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => Chat(
-                    convId: 'general',
-                    convName: 'General',
-                  )
-                ));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.announcement, size: 48.0),
-              title: Text('Annoucements'),
-              subtitle: Text('Important updates'),
-              onTap: () {
-                print('Annoucements');
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => Chat(
-                    convId: 'annoucements',
-                    convName: 'Annoucements',
-                  )
-                ));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.assignment, size:48.0),
-              title: Text('Homework'),
-              subtitle: Text('Homework help'),
-              onTap: () {
-                print('Homework');
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => Chat(
-                    convId: 'homework',
-                    convName: 'Homework',
-                  )
-                ));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.textsms, size: 48.0),
-              title: Text('Off-Topic'),
-              subtitle: Text('For everything else'),
-              onTap: () {
-                print('Off-Topic');
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => Chat(
-                    convId: 'off-topic',
-                    convName: 'Off-Topic',
-                  )
-                ));
-              },
-            ),
-          ],
-        )
-      ),
+          child: ListView(
+        children: [
+          ListTile(
+            leading: Icon(Icons.article, size: 48.0),
+            title: Text('General'),
+            subtitle: Text('On-topic discussions'),
+            onTap: () {
+              print('General');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Chat(
+                            convId: 'general',
+                            convName: 'General',
+                          )));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.announcement, size: 48.0),
+            title: Text('Annoucements'),
+            subtitle: Text('Important updates'),
+            onTap: () {
+              print('Annoucements');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Chat(
+                            convId: 'annoucements',
+                            convName: 'Annoucements',
+                          )));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.assignment, size: 48.0),
+            title: Text('Homework'),
+            subtitle: Text('Homework help'),
+            onTap: () {
+              print('Homework');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Chat(
+                            convId: 'homework',
+                            convName: 'Homework',
+                          )));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.textsms, size: 48.0),
+            title: Text('Off-Topic'),
+            subtitle: Text('For everything else'),
+            onTap: () {
+              print('Off-Topic');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Chat(
+                            convId: 'off-topic',
+                            convName: 'Off-Topic',
+                          )));
+            },
+          ),
+        ],
+      )),
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
@@ -107,6 +109,8 @@ class Home extends StatelessWidget {
                 // ...
                 // Then close the drawer
                 Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
               },
             ),
             ListTile(
@@ -116,6 +120,8 @@ class Home extends StatelessWidget {
                 // ...
                 // Then close the drawer
                 Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage()));
               },
             ),
           ],
@@ -123,9 +129,13 @@ class Home extends StatelessWidget {
       ),
     );
   }
+
   Future<bool> isAdmin() async {
     final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
-    final DocumentSnapshot docSnap = await FirebaseFirestore.instance.collection('users').doc(currentUserUid).get();
+    final DocumentSnapshot docSnap = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserUid)
+        .get();
     return docSnap.get('isAdmin');
   }
 }

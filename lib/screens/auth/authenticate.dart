@@ -15,8 +15,8 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   @override
 
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
   CollectionReference _firestore = FirebaseFirestore.instance.collection('users'); 
 
@@ -30,7 +30,7 @@ class _AuthenticateState extends State<Authenticate> {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children : <Widget>[
             Padding(
               padding: EdgeInsets.all(10.0),
-              child: Text("Fan Page",
+              child: Text("Message Board",
                 style: TextStyle (
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
