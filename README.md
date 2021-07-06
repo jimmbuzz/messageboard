@@ -1,6 +1,13 @@
 # messageboard
+Raleigh Curns, Santhosh Ramachandran, Sahba Atarodi
+CSC 4360 - Durham
+7/5/2021  
+Group Project 1: Message Board  
 
-A new Flutter project.
+A Flutter project.
+
+## Android 
+Clone repository and run.
 
 ## Chrome launch 
 In the project directory you can run:  
