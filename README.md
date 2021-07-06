@@ -1,11 +1,11 @@
 # messageboard
-Raleigh Curns, Santhosh Ramachandran, Sahba Atarodi
-CSC 4360 - Durham
+Raleigh Curns, Santhosh Ramachandran, Sahba Atarodi  
+CSC 4360 - Durham  
 7/5/2021  
 Group Project 1: Message Board  
-
-A Flutter project.
-
+  
+A Flutter project.  
+  
 ## Android 
 Clone repository and run.
 
